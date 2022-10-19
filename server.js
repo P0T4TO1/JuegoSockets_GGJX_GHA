@@ -2,49 +2,64 @@ const http = require('http');
 const fs = require('fs');
 const url = require("url");
 
-
 const server = http.createServer((req, res) => {
-    // Path request
+    // Rutas
     const pathname = url.parse(req.url).pathname;
 
-    console.log("Request for " + pathname + " received.");
-
-    if (pathname === "/") {
+    if(pathname === "/") {
         res.writeHead(200, {"Content-Type": "text/html"});
-        html = fs.readFileSync("index.html", "utf8");
+        html = fs.readFileSync("./index.html", "utf8");
         res.write(html);
-    } else if (pathname === "/index.js") {
+
+    } else if (pathname === "/app.js") {
         res.writeHead(200, {"Content-Type": "text/javascript"});
-        script = fs.readFileSync("index.js", "utf8");
+        script = fs.readFileSync("app.js", "utf8");
         res.write(script);
-    } else if (pathname === "./convert/domToJson.js") {
+
+    } else if (pathname === "/domToJson.js") {
         res.writeHead(200, {"Content-Type": "text/javascript"});
         script = fs.readFileSync("domToJson.js", "utf8");
         res.write(script);
-    } else if (pathname === "./public/assets/style.css") {
+
+    } else if (pathname === "/style.css"){
         res.writeHead(200, {"Content-Type": "text/css"});
         style = fs.readFileSync("style.css", "utf8");
         res.write(style);
+
+    } else if (pathname === "/assets/bootstrap/css/bootstrap.min.css"){
+        res.writeHead(200, {"Content-Type": "text/css"});
+        style = fs.readFileSync("assets/bootstrap/css/bootstrap.min.css", "utf8");
+        res.write(style);
+
+    } else if (pathname === "/assets/fonts/font-awesome.min.css"){
+        res.writeHead(200, {"Content-Type": "text/css"});
+        style = fs.readFileSync("assets/fonts/font-awesome.min.css", "utf8");
+        res.write(style);
+
+    } else if (pathname === "/assets/bootstrap/js/bootstrap.min.js"){
+        res.writeHead(200, {"Content-Type": "text/javascript"});
+        script = fs.readFileSync("assets/bootstrap/js/bootstrap.min.js", "utf8");
+        res.write(script);
     }
+
     res.end();
 });
 
-// Cargando socket.io
-let io = require("socket.io")(server);
+// Cargar socket
+const io = require('socket.io').listen(server);
 
-// Número del juagdor
+// Numero de jugadores
 let numberPlayer = 0;
 
-// Conexion de un jugador
+// Conexion del jugador
 io.sockets.on('connection', (socket) => {
-    console.log('Jugador conectado!');
+    console.log('Un jugador se ha conectado!');
     numberPlayer++;
 
     if(numberPlayer === 2){
+        // Enviar enpezar juego
         io.emit("startGame");
     }
-
-    // Transmision de mensaje //
 
     socket.on("sendGrid", (grid) => {
         socket.broadcast.emit("gridPlayer2", grid);
@@ -58,13 +73,11 @@ io.sockets.on('connection', (socket) => {
         socket.broadcast.emit("miniGridPlayer2", minigrid);
     });
 
-    // Jugador desconectado
+
     socket.on('disconnect', () => {
         console.log("Un jugador se ha desconectado!");
         numberPlayer--;
     });
 });
 
-server.listen(8000, () => {
-    console.log("Servidor abierto en el puerto 8000")
-});
+server.listen(8080);

@@ -22,14 +22,13 @@ export function toJSON(node) {
         let name = attrs[i].nodeName;
         defaultValues.set(name, attrDefaultValues[name]);
       }
-      // Add some special cases that might not be included by enumerating
-      // attributes above. Note: this list is probably not exhaustive.
+
       switch (obj.tagName) {
         case 'input': {
           if (node.type === 'checkbox' || node.type === 'radio') {
             defaultValues.set('checked', false);
           } else if (node.type !== 'file') {
-            // Don't store the value for a file input.
+
             defaultValues.set('value', '');
           }
           break;
@@ -57,10 +56,9 @@ export function toJSON(node) {
       }
     }
     let childNodes = node.childNodes;
-    // Don't process children for a textarea since we used `value` above.
+
     if (obj.tagName !== 'textarea' && childNodes && childNodes.length) {
-        let arr;
-        arr = (obj.childNodes = []);
+      let arr = (obj.childNodes = []);
       for (let i = 0; i < childNodes.length; i++) {
         arr[i] = toJSON(childNodes[i]);
       }
@@ -79,7 +77,7 @@ export function toDOM(input) {
       if (obj.attributes) {
           for (let [attrName, value] of obj.attributes) {
           let propName = propFix[attrName] || attrName;
-          // Note: this will throw if setting the value of an input[type=file]
+
           node[propName] = value;
           }
       }

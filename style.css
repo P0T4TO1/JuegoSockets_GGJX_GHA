@@ -1,79 +1,87 @@
 body {
-    background-color: rgb(66,68,87);
+  background-image: url(https://wallpapercave.com/wp/wp2675338.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.container {
-    display: flex;
-    position: fixed;
-    top: 50%;
-    left: 25%;
-    transform: translate(-50%, -50%);
+.containerT {
+  display: flex;
 }
 
 .container2 {
-    display: flex;
-    position: fixed;
-    top: 50%;
-    left: 75%;
-    transform: translate(-50%, -50%);
+  display: flex;
 }
 
 .grid {
-    width: 200px;
-    height: 400px;
-    display: flex;
-    align-content: 'center';
-    justify-content: 'center';
-    flex-wrap: wrap;
-    background-color: rgb(8,193,168);
+  width: 200px;
+  height: 400px;
+  display: flex;
+  align-content: 'center';
+  justify-content: 'center';
+  flex-wrap: wrap;
+  background-color: rgb(0, 0, 0);
 }
 .grid2 {
-    width: 200px;
-    height: 400px;
-    display: flex;
-    align-content: 'center';
-    justify-content: 'center';
-    flex-wrap: wrap;
-    background-color: rgb(8,193,168);
+  width: 200px;
+  height: 400px;
+  display: flex;
+  align-content: 'center';
+  justify-content: 'center';
+  flex-wrap: wrap;
+  background-color: rgb(0, 0, 0);
 }
 .grid div {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
 .grid2 div {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
 .tetromino {
-    border-radius:3px;
+  border-radius:3px;
+  border: inset 2px;
 }
 
 .mini-grid {
-    margin-left: 50px;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(8,193,168);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(0, 0, 0);
 }
 
 .mini-grid2 {
-    margin-left: 50px;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(8,193,168);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(0, 0, 0);
 }
 
 .mini-grid div {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
 .mini-grid2 div {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.tetris {
+  max-width: 500px;
+}
+
+.containerGrid{
+  border: 10px solid white;
+}
+
+.containerMiniGrid {
+  margin-left: 3rem;
+  width: 90px;
+  height: 90px;
+  border: solid 5px white;
 }

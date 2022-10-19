@@ -1,14 +1,8 @@
 {
-  "name": "tetrisnode",
-  "version": "1.0.0",
-  "description": "Tetris multijugador con sockets en Node JS",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Garcia Gomez Jaret y Gomez Herrera Axel",
-  "license": "ISC",
-  "dependencies": {
-    "socket.io": "^4.5.3"
-  }
+    "name": "tetris",
+    "version": "1.0.0",
+    "description": "Juego de Tetris simple para dos jugadores utilizando sockets",
+    "dependencies": {
+        "socket.io": "~2.3.0"
+    }
 }
