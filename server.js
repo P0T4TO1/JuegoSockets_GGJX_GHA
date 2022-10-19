@@ -80,4 +80,8 @@ io.sockets.on('connection', (socket) => {
     });
 });
 
-server.listen(8080);
+const PORT = process.env.PORT || 8080;
+
+server.listen(PORT, () => {
+    console.log("Servidor iniciado: " + PORT)
+});
