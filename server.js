@@ -3,6 +3,7 @@ const fs = require('fs');
 const url = require("url");
 
 const server = http.createServer((req, res) => {
+
     // Rutas
     const pathname = url.parse(req.url).pathname;
 
@@ -73,6 +74,13 @@ io.sockets.on('connection', (socket) => {
         socket.broadcast.emit("miniGridPlayer2", minigrid);
     });
 
+    socket.on("sendReloadAll" , () => {
+        socket.broadcast.emit("reloadAll");
+    })
+
+    socket.on("sendMessageWin", () => {
+        socket.broadcast.emit("messageWin");
+    })
 
     socket.on('disconnect', () => {
         console.log("Un jugador se ha desconectado!");

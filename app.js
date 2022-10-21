@@ -1,15 +1,16 @@
 import { toDOM, toJSON } from "./domToJson.js";
 // Conexion al server via socket
-const socket = io.connect('http://localhost:8080/');
+const socket = io.connect('http://localhost:8000/');
 
 document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.querySelector('.grid')
-  const gridP2 = document.querySelector('.grid2')
-  const miniGrid = document.querySelector('.mini-grid')
-  const miniGridP2 = document.querySelector('.mini-grid2')
+  const grid = document.querySelector('.grid');
+  const gridP2 = document.querySelector('.grid2');
+  const miniGrid = document.querySelector('.mini-grid');
+  const miniGridP2 = document.querySelector('.mini-grid2');
   let squares = Array.from(document.querySelectorAll('.grid div'))
-  const scoreDisplay = document.querySelector('#score')
-  const scoreDisplayP2 = document.querySelector('#scoreP2')
+  const scoreDisplay = document.querySelector('#score');
+  const scoreDisplayP2 = document.querySelector('#scoreP2');
+  const instructions = document.querySelector('#txtInstructions');
   const width = 10
   let nextRandom = 0
   let timerId
@@ -98,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
       moveDown()
     }
   }
-  document.addEventListener('keyup', control)
 
   // Aceleracion de bajada de las figuras
   function moveDown() {
@@ -225,8 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
       clearInterval(timerId)
       timerId = null
     } else {
+      document.addEventListener('keyup', control)
+      instructions.style.display = "none"
       draw()
-      timerId = setInterval(moveDown, 1000)
+      timerId = setInterval(moveDown, 800)
       nextRandom = Math.floor(Math.random()*theTetrominoes.length)
       displayShape()
     }
@@ -255,10 +257,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // Game Over
   function gameOver() {
     if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-      scoreDisplay.innerHTML = 'Game Over'
+      document.removeEventListener('keyup', control);
       clearInterval(timerId)
+      socket.emit("sendMessageWin", null)
+      Swal.fire({
+        title: "Game Over",
+        text: "Juego terminado",
+        imageUrl: 'https://i.gifer.com/origin/81/81ab221b64e4bdbc3c32079af661d69c_w200.gif',
+        imageWidth: 300,
+        imageHeight: 250,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Iniciar nuevo juego'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          socket.emit("sendReloadAll", null)
+          location.reload()
+        }
+      });
     }
   }
+
+  socket.on("messageWin", () => {
+    Swal.fire({
+      title: "Victory Royale",
+      text: "Haz ganado!!!!. El juego se reiniciara cuando el perdedor este listo",
+      imageUrl: 'https://media3.giphy.com/media/58Mqi7C6PJzqPhYkGn/giphy.gif?cid=790b7611b155ff3a08a891a1b924c65bfd77cd6b006bcecd&rid=giphy.gif&ct=s',
+      imageWidth: 300,
+      imageHeight: 200,
+    })
+  })
+
+  socket.on("reloadAll", () => {
+    location.reload();
+  })
   
   socket.on("gridPlayer2", (newGrid) => {
     newGrid = toDOM(newGrid)
